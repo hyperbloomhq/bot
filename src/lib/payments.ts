@@ -1,7 +1,6 @@
 import { Keypair, PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
 import { UserBalances } from './user-balances'
 import { HOBBY_PLAN_FEE, PRO_PLAN_FEE, SOURCE_CODE_PRICE, WHALE_PLAN_FEE } from '../constants/pricing'
-import { HANDI_CAT_WALLET_ADDRESS } from '../constants/handi-cat'
 import { RpcConnectionManager } from '../providers/solana'
 import { PrismaUserRepository } from '../repositories/prisma/user'
 import { PromotionType, SubscriptionPlan, User, UserSubscription } from '@prisma/client'
@@ -20,7 +19,7 @@ export class Payments {
   private prismaGroupRepository: PrismaGroupRepository
   constructor() {
     this.userBalances = new UserBalances()
-    this.handiCatWallet = new PublicKey(HANDI_CAT_WALLET_ADDRESS ?? '')
+    this.handiCatWallet = new PublicKey(process.env.HANDICAT_WALLET_ADDRESS ?? '')
 
     this.prismaUserRepository = new PrismaUserRepository()
     this.prismaSubscriptionRepository = new PrismaSubscriptionRepository()

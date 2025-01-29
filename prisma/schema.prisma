@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("SUPABASE_DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 enum SubscriptionPlan {
@@ -42,7 +42,7 @@ model User {
 
   personalWalletPubKey    String
   personalWalletPrivKey   String
-  
+
   userSubscription        UserSubscription?
   userWallets             UserWallet[]
   userPromotions          UserPromotion[]
@@ -55,7 +55,7 @@ model User {
 model Wallet {
   id            String         @id @default(cuid())
   address       String
-  
+
   userWallets   UserWallet[]
 }
 
@@ -71,7 +71,7 @@ model UserWallet {
   user            User             @relation(fields: [userId], references: [id])
   wallet          Wallet           @relation(fields: [walletId], references: [id])
 
-  @@id([userId, walletId]) 
+  @@id([userId, walletId])
 }
 
 model UserSubscription {
@@ -96,7 +96,7 @@ model Promotion {
   type PromotionType
   price Decimal
   isActive Boolean @default(true)
-  isStackable Boolean 
+  isStackable Boolean
 
   userPromotions UserPromotion[]
 }
@@ -106,10 +106,10 @@ model UserPromotion {
 
    purchasedAt DateTime  @default(now())
 
-   userId String 
+   userId String
    user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  promotionId String 
+  promotionId String
   promotion    Promotion    @relation(fields: [promotionId], references: [id], onDelete: Cascade)
 
   @@index([userId])

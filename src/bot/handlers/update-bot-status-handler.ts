@@ -3,48 +3,47 @@ import { PrismaUserRepository } from '../../repositories/prisma/user'
 import { SUB_MENU } from '../../config/bot-menus'
 
 export class UpdateBotStatusHandler {
-  private prismaUserRepository: PrismaUserRepository
-  constructor(private bot: TelegramBot) {
-    this.prismaUserRepository = new PrismaUserRepository()
-    this.bot = bot
-  }
+    private prismaUserRepository: PrismaUserRepository
+    constructor(private bot: TelegramBot) {
+        this.prismaUserRepository = new PrismaUserRepository()
+        this.bot = bot
+    }
 
-  public async pauseResumeBot(msg: TelegramBot.Message) {
-    const chatId = msg.chat.id
+    public async pauseResumeBot(msg: TelegramBot.Message) {
+        const chatId = msg.chat.id
 
-    const botPaused = await this.prismaUserRepository.updateUserHandiCatStatus(String(chatId))
+        const botPaused = await this.prismaUserRepository.updateUserHandiCatStatus(String(chatId))
 
-    if (botPaused.status !== 'ok') return
+        if (botPaused.status !== 'ok') return
 
-    const changedStatus = botPaused.changedStatus
+        const changedStatus = botPaused.changedStatus
 
-    const messageText = `
-${
-  changedStatus === 'PAUSED'
-    ? `
+        const messageText = `
+${changedStatus === 'PAUSED'
+                ? `
 ✨ Handi Cat has been <u>Paused</u> and you will no longer receive notifications until you resume it!
-    
+
 You can still resume the bot anytime in the settings menu
 `
-    : changedStatus === 'ACTIVE'
-      ? `
+                : changedStatus === 'ACTIVE'
+                    ? `
 ✨ Handi Cat has been <u>Resumed</u> and you will start receiving notifications again!
-    
+
 Feel free to adjust your preferences anytime in the settings menu
 `
-      : changedStatus === 'NONE'
-        ? `
+                    : changedStatus === 'NONE'
+                        ? `
 Something went wrong while updating the status, please try again later
 `
-        : ''
-}
+                        : ''
+            }
 `
 
-    this.bot.editMessageText(messageText, {
-      chat_id: chatId,
-      message_id: msg.message_id,
-      reply_markup: SUB_MENU,
-      parse_mode: 'HTML',
-    })
-  }
+        this.bot.editMessageText(messageText, {
+            chat_id: chatId,
+            message_id: msg.message_id,
+            reply_markup: SUB_MENU,
+            parse_mode: 'HTML',
+        })
+    }
 }

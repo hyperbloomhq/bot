@@ -4,52 +4,52 @@ import { SUB_MENU, USER_WALLET_SUB_MENU } from '../../config/bot-menus'
 import { WalletMessages } from '../messages/wallet-messages'
 
 export class MyWalletCommand {
-  private prismaUserRepository: PrismaUserRepository
-  private walletMessages: WalletMessages
-  constructor(private bot: TelegramBot) {
-    this.prismaUserRepository = new PrismaUserRepository()
-    this.walletMessages = new WalletMessages()
+    private prismaUserRepository: PrismaUserRepository
+    private walletMessages: WalletMessages
+    constructor(private bot: TelegramBot) {
+        this.prismaUserRepository = new PrismaUserRepository()
+        this.walletMessages = new WalletMessages()
 
-    this.bot = bot
-  }
-
-  public async myWalletCommandHandler(msg: TelegramBot.Message) {
-    const userId = msg.chat.id.toString()
-    const userPersonalWallet = await this.prismaUserRepository.getPersonalWallet(userId)
-
-    if (!userPersonalWallet) {
-      return
+        this.bot = bot
     }
 
-    const messageText = await this.walletMessages.sendMyWalletMessage(userPersonalWallet)
+    public async myWalletCommandHandler(msg: TelegramBot.Message) {
+        const userId = msg.chat.id.toString()
+        const userPersonalWallet = await this.prismaUserRepository.getPersonalWallet(userId)
 
-    const sendMessage = this.bot.editMessageText(messageText, {
-      chat_id: msg.chat.id,
-      message_id: msg.message_id,
-      reply_markup: USER_WALLET_SUB_MENU,
-      parse_mode: 'HTML',
-    })
+        if (!userPersonalWallet) {
+            return
+        }
 
-    return sendMessage
-  }
+        const messageText = await this.walletMessages.sendMyWalletMessage(userPersonalWallet)
 
-  public async showPrivateKeyHandler(msg: TelegramBot.Message) {
-    const userId = String(msg.chat.id)
+        const sendMessage = this.bot.editMessageText(messageText, {
+            chat_id: msg.chat.id,
+            message_id: msg.message_id,
+            reply_markup: USER_WALLET_SUB_MENU,
+            parse_mode: 'HTML',
+        })
 
-    const userPrivKey = await this.prismaUserRepository.showUserPrivateKey(userId)
+        return sendMessage
+    }
 
-    const messageText = `
+    public async showPrivateKeyHandler(msg: TelegramBot.Message) {
+        const userId = String(msg.chat.id)
+
+        const userPrivKey = await this.prismaUserRepository.showUserPrivateKey(userId)
+
+        const messageText = `
 Your private key (do not share with anyone!!!)
 
 (Click to copy)
 <code>${userPrivKey ? userPrivKey : ''}</code>
 `
 
-    this.bot.editMessageText(messageText, {
-      chat_id: msg.chat.id,
-      message_id: msg.message_id,
-      reply_markup: SUB_MENU,
-      parse_mode: 'HTML',
-    })
-  }
+        this.bot.editMessageText(messageText, {
+            chat_id: msg.chat.id,
+            message_id: msg.message_id,
+            reply_markup: SUB_MENU,
+            parse_mode: 'HTML',
+        })
+    }
 }

@@ -20,91 +20,91 @@ dotenv.config()
 const PORT = process.env.PORT || 3001
 
 class Main {
-  private trackWallets: TrackWallets
+    private trackWallets: TrackWallets
 
-  private cronJobs: CronJobs
-  private callbackQueryHandler: CallbackQueryHandler
-  private startCommand: StartCommand
-  private addCommand: AddCommand
-  private deleteCommand: DeleteCommand
-  private groupsCommand: GroupsCommand
-  private helpCommand: HelpCommand
-  private manageCommand: ManageCommand
-  private upgradePlanCommand: UpgradePlanCommand
-  constructor(private app: Express = express()) {
-    this.setupMiddleware()
-    this.setupRoutes()
+    private cronJobs: CronJobs
+    private callbackQueryHandler: CallbackQueryHandler
+    private startCommand: StartCommand
+    private addCommand: AddCommand
+    private deleteCommand: DeleteCommand
+    private groupsCommand: GroupsCommand
+    private helpCommand: HelpCommand
+    private manageCommand: ManageCommand
+    private upgradePlanCommand: UpgradePlanCommand
+    constructor(private app: Express = express()) {
+        this.setupMiddleware()
+        this.setupRoutes()
 
-    // services
-    this.cronJobs = new CronJobs()
-    this.trackWallets = new TrackWallets()
-    this.callbackQueryHandler = new CallbackQueryHandler(bot)
-    this.startCommand = new StartCommand(bot)
-    this.addCommand = new AddCommand(bot)
-    this.deleteCommand = new DeleteCommand(bot)
-    this.groupsCommand = new GroupsCommand(bot)
-    this.helpCommand = new HelpCommand(bot)
-    this.manageCommand = new ManageCommand(bot)
-    this.upgradePlanCommand = new UpgradePlanCommand(bot)
+        // services
+        this.cronJobs = new CronJobs()
+        this.trackWallets = new TrackWallets()
+        this.callbackQueryHandler = new CallbackQueryHandler(bot)
+        this.startCommand = new StartCommand(bot)
+        this.addCommand = new AddCommand(bot)
+        this.deleteCommand = new DeleteCommand(bot)
+        this.groupsCommand = new GroupsCommand(bot)
+        this.helpCommand = new HelpCommand(bot)
+        this.manageCommand = new ManageCommand(bot)
+        this.upgradePlanCommand = new UpgradePlanCommand(bot)
 
-    this.startServer()
-  }
+        this.startServer()
+    }
 
-  private setupMiddleware(): void {
-    this.app.use(express.json({ limit: '50mb' }))
-  }
+    private setupMiddleware(): void {
+        this.app.use(express.json({ limit: '50mb' }))
+    }
 
-  private setupRoutes() {
-    // Default endpoint
-    this.app.get('/', async (req, res) => {
-      try {
-        res.status(200).send('Hello world')
-      } catch (error) {
-        console.error('Default route error', error)
-        res.status(500).send('Error processing default route')
-      }
-    })
-    this.app.post(`/webhook/telegram`, async (req, res) => {
-      try {
-        bot.processUpdate(req.body)
+    private setupRoutes() {
+        // Default endpoint
+        this.app.get('/', async (req, res) => {
+            try {
+                res.status(200).send('Hello world')
+            } catch (error) {
+                console.error('Default route error', error)
+                res.status(500).send('Error processing default route')
+            }
+        })
+        this.app.post(`/webhook/telegram`, async (req, res) => {
+            try {
+                bot.processUpdate(req.body)
 
-        res.status(200).send('Update received')
-      } catch (error) {
-        console.log('Error processing update:', error)
-        res.status(500).send('Error processing update')
-      }
-    })
-  }
+                res.status(200).send('Update received')
+            } catch (error) {
+                console.log('Error processing update:', error)
+                res.status(500).send('Error processing update')
+            }
+        })
+    }
 
-  private startServer(): void {
-    this.app.listen(PORT, () =>
-      console.log(`${chalk.bold.white.bgMagenta(`Server running on http://localhost:${PORT}`)}`),
-    )
-  }
+    private startServer(): void {
+        this.app.listen(PORT, () =>
+            console.log(`${chalk.bold.white.bgMagenta(`Server running on http://localhost:${PORT}`)}`),
+        )
+    }
 
-  public async init(): Promise<void> {
-    const gradientText = gradient.retro
-    console.log(gradientText(ASCII_TEXT))
+    public async init(): Promise<void> {
+        const gradientText = gradient.retro
+        console.log(gradientText(ASCII_TEXT))
 
-    // bot
-    this.callbackQueryHandler.call()
-    this.startCommand.start()
-    this.addCommand.addCommandHandler()
-    this.deleteCommand.deleteCommandHandler()
-    this.groupsCommand.activateGroupCommandHandler()
-    this.manageCommand.manageCommandHandler()
-    this.upgradePlanCommand.upgradePlanCommandHandler()
-    this.helpCommand.groupHelpCommandHandler()
-    this.helpCommand.notifyHelpCommandHander()
+        // bot
+        this.callbackQueryHandler.call()
+        this.startCommand.start()
+        this.addCommand.addCommandHandler()
+        this.deleteCommand.deleteCommandHandler()
+        this.groupsCommand.activateGroupCommandHandler()
+        this.manageCommand.manageCommandHandler()
+        this.upgradePlanCommand.upgradePlanCommandHandler()
+        this.helpCommand.groupHelpCommandHandler()
+        this.helpCommand.notifyHelpCommandHander()
 
-    // cron jobs
-    await this.cronJobs.monthlySubscriptionFee()
-    await this.cronJobs.updateSolPrice()
+        // cron jobs
+        await this.cronJobs.monthlySubscriptionFee()
+        await this.cronJobs.updateSolPrice()
 
-    // setup
-    await this.trackWallets.setupWalletWatcher({ event: 'initial' })
-    await this.trackWallets.listenForDatabaseChanges()
-  }
+        // setup
+        await this.trackWallets.setupWalletWatcher({ event: 'initial' })
+        await this.trackWallets.listenForDatabaseChanges()
+    }
 }
 
 const main = new Main()

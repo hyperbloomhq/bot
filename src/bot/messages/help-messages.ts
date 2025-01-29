@@ -1,5 +1,5 @@
 export class HelpMessages {
-  static generalHelp = `
+    static generalHelp = `
 How to use <b>Handi Cat Wallet Tracker Bot: </b>
 
 🔮 Main Commands:
@@ -14,7 +14,7 @@ How to use <b>Handi Cat Wallet Tracker Bot: </b>
 /help_group - How to add Handi Cat to group chats
 `
 
-  static groupsHelp = `
+    static groupsHelp = `
 <b>How to add Handi Cat to Telegram groups:</b>
 
 1️⃣ Add Handi Cat as an administrator in your Group chat
@@ -23,7 +23,7 @@ How to use <b>Handi Cat Wallet Tracker Bot: </b>
 4️⃣ Send /add to start adding wallets
 `
 
-  static notifyHelp = `
+    static notifyHelp = `
 <b>How to use Handi Cat Bot:</b>
 1️⃣ Send /start
 2️⃣ Click on <b>Add</b> Button

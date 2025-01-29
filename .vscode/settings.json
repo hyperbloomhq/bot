@@ -6,24 +6,29 @@
     "editor.defaultFormatter": "vscode.typescript-language-features",
     "editor.formatOnSave": true,
     "eslint.format.enable": true,
-    "editor.tabSize": 2,
+    "editor.tabSize": 4,
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "css.validate": false,
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 120,
     "editor.codeActionsOnSave": {
-      "source.fixAll": "explicit"
+        "source.fixAll": "explicit"
     },
-    "cSpell.words": ["mantine"],
+    "cSpell.words": [
+        "mantine"
+    ],
     "vsicons.presets.nestjs": true,
     "[markdown]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescriptreact]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescript]": {
-      "editor.defaultFormatter": "vscode.typescript-language-features"
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
     }
-  }
+}

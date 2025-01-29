@@ -1,7 +1,7 @@
 export class UserSettingsMessages {
-  constructor() {}
+    constructor() { }
 
-  static settingsMessage: string = `
+    static settingsMessage: string = `
 <b>⚙️ Settings</b>
 
 You can pause or resume Handi Cat at anytime just by clicking the button below ✨

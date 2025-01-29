@@ -16,12 +16,12 @@ const QUICKNODE_NETWORK = SOLANA_NETWORK;
 // If you are going to use Handi Cat locally you can just use SOLANA_NETWORK for all connections
 // and will work fine as long you dont track too many wallets
 export class RpcConnectionManager {
-  static connections = [new Connection(CHAINSTACK_NETWORK, 'confirmed'), new Connection(QUICKNODE_NETWORK, 'confirmed')]
+    static connections = [new Connection(CHAINSTACK_NETWORK, 'confirmed'), new Connection(QUICKNODE_NETWORK, 'confirmed')]
 
-  static logConnection = new Connection(HELIUS_NETWORK, 'processed')
+    static logConnection = new Connection(HELIUS_NETWORK, 'processed')
 
-  static getRandomConnection(): Connection {
-    const randomIndex = Math.floor(Math.random() * RpcConnectionManager.connections.length)
-    return RpcConnectionManager.connections[randomIndex]
-  }
+    static getRandomConnection(): Connection {
+        const randomIndex = Math.floor(Math.random() * RpcConnectionManager.connections.length)
+        return RpcConnectionManager.connections[randomIndex]
+    }
 }
